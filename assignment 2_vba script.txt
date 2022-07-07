@@ -1,0 +1,58 @@
+Attribute VB_Name = "Module1"
+Sub YearlyStockChange():
+
+
+    Dim Yearly_Change As Double
+    Dim Starting_Price As Double
+    Dim Ending_Price As Double
+    Dim Total_Volume As Double
+    
+    For Each ws In ActiveWorkbook.Worksheets
+    
+        Total_Volume = 0
+        
+        LastRow = ws.Cells(Rows.Count, "A").End(xlUp).Row
+        
+        Dim Ticker As Long
+        Ticker = 2
+        
+        For i = 2 To LastRow
+            Debug.Print (i)
+            Total_Volume = Total_Volume + CDbl(ws.Cells(i, 7).Value)
+        
+        
+            If ws.Cells(i, 1).Value <> ws.Cells(i - 1, 1).Value Then
+                ws.Cells(Ticker, 9).Value = ws.Cells(i, 1).Value
+                Starting_Price = ws.Cells(i, 3).Value
+            End If
+            
+             If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
+                Ending_Price = ws.Cells(i, 6).Value
+                ws.Cells(Ticker, 10).Value = Ending_Price - Starting_Price
+                ws.Cells(Ticker, 12).Value = Total_Volume
+                ws.Cells(Ticker, 11).Value = (Ending_Price - Starting_Price) / Starting_Price
+                ws.Cells(Ticker, 11).NumberFormat = "0.00%"
+                
+                If ws.Cells(Ticker, 10).Value > 0 Then
+                    ws.Cells(Ticker, 10).Interior.Color = vbGreen
+                Else
+                    ws.Cells(Ticker, 10).Interior.Color = vbRed
+                End If
+                    
+             
+                Ticker = Ticker + 1
+        
+                Total_Volume = 0
+             
+            End If
+             
+            
+             
+        Next i
+        
+    Next
+        
+        
+    
+
+End Sub
