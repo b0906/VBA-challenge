@@ -46,13 +46,10 @@ Sub YearlyStockChange():
              
             End If
              
-            
-             
+              
         Next i
         
-    Next
-        
-        
+    Next        
     
 
 End Sub
